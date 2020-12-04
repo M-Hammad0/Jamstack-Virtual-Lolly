@@ -39,7 +39,6 @@ h3 {
     padding: 13px;
     border-radius: 29px;
     background-color: transparent;
-    color: #F872D7;
     margin: 5% auto 5% auto;
     display: block;
     border: solid 1px #F872D7;
@@ -48,6 +47,15 @@ h3 {
 .home-btn:hover {
     background-color: #F872D7 ;
     color: black;
+}
+
+.btn-link:hover {
+    color: black;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: #F872D7;
 }
 
 

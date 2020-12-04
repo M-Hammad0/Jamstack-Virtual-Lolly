@@ -12,9 +12,10 @@ export default function Home() {
     <div className='home-container'>
       <Header />
     <Image className='home-lolly' src={img} fluid />
-    <button onClick={() => <Link to='/CreateLolly' />} className='home-btn' size="lg">
-    Make a new lolly to send to a friend
-  </button>
+    <Button className='home-btn' size="lg">
+    <Link className='btn-link' to='/CreateLolly/'>Make a new lolly to send to a friend</Link>
+  </Button>
+  
     </div>
     
   </div>
