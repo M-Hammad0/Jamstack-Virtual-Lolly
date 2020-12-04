@@ -37,6 +37,7 @@ const CreateLollyPage = () => {
     const [middle,setMiddle] = useState("#E55946")
     const [bottom,setBottom] = useState("#DBA543")
 
+    console.log(top)
 
   return (
     <div>
@@ -77,12 +78,18 @@ const CreateLollyPage = () => {
                     variables: {
                         To,
                         message,
-                        from
+                        from,
+                        top,
+                        middle,
+                        bottom
                     }
                 })
                 setTo("")
                 setMessage("")
                 setFrom("")
+                setTop("#D52358")
+                setMiddle("#E55946")
+                setBottom("#DBA543")
             }}>create lolly!</button>
             </Col>
           </Row>
