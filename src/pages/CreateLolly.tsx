@@ -11,11 +11,12 @@ import ColorPicker from 'rc-color-picker';
 
 
 const create_lolly = gql`
-mutation createLolly($To: String!, $message:String!,$from:String!){
-    createLolly(To: $To,message: $message, from: $from){
+mutation createLolly($To: String!, $message:String!,$from:String!,$flavourTop: String!, $flavourMiddle: String!, $flavourBottom: String!){
+    createLolly(To: $To,message: $message, from: $from, flavourTop: $flavourTop, flavourMiddle: $flavourMiddle, flavourBottom: $flavourBottom){
       To
       message
       from
+      flavourTop
     }
   }
 `
@@ -79,9 +80,9 @@ const CreateLollyPage = () => {
                         To,
                         message,
                         from,
-                        top,
-                        middle,
-                        bottom
+                        flavourTop: top,
+                        flavourMiddle: middle,
+                        flavourBottom: bottom
                     }
                 })
                 setTo("")
