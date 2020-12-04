@@ -21,6 +21,7 @@
     "gatsby": "^2.26.1",
     "gatsby-plugin-apollo": "^3.0.2",
     "gatsby-plugin-typescript": "^2.8.0",
+    "rc-color-picker": "^1.2.6",
     "react": "^16.12.0",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.12.0",

@@ -5,6 +5,9 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import { gql,useMutation } from '@apollo/client'
 import Lolly from "../components/Lolly"
+import 'rc-color-picker/assets/index.css';
+//@ts-ignore
+import ColorPicker from 'rc-color-picker';
 
 
 const create_lolly = gql`
@@ -17,8 +20,11 @@ mutation createLolly($To: String!, $message:String!,$from:String!){
   }
 `
 
-
-
+interface colorI {
+    color: string,
+    alpha: string,
+    open: boolean
+}
 
 
 const CreateLollyPage = () => {
@@ -27,13 +33,41 @@ const CreateLollyPage = () => {
     const [message,setMessage] = useState("")
     const [from,setFrom] = useState("")
     const [createLolly] = useMutation(create_lolly)
+    const [top,setTop] = useState("#D52358")
+    const [middle,setMiddle] = useState("#E55946")
+    const [bottom,setBottom] = useState("#DBA543")
+
 
   return (
     <div>
       <Layout>
+      
         <Container>
           <Row>
-            <Col><Lolly fillLollyTop="black" fillLollyMiddle="white" fillLollyBottom="orange" /></Col>
+            <Col>
+            <Row>
+                <Col>
+                <Lolly fillLollyTop={top} fillLollyMiddle={middle} fillLollyBottom={bottom} />
+                </Col>
+                <Col>
+                <ColorPicker
+      animation="slide-up"
+      color={'#D52358'}
+      onChange={({color}:colorI) => setTop(color)}
+    />
+    <ColorPicker
+      animation="slide-up"
+      color={'#E55946'}
+      onChange={({color}:colorI) => setMiddle(color)}
+    />
+    <ColorPicker
+      animation="slide-up"
+      color={'#DBA543'}
+      onChange={({color}:colorI) => setBottom(color)}
+    />
+                </Col>
+            </Row>
+            </Col>
             <Col>
             <input placeholder="to" value={To} onChange={e => setTo(e.target.value)} />
             <input placeholder="message" value={message} onChange={e => setMessage(e.target.value)} />
