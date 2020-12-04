@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+body {
+    background-color: #21212B;
+}
+
+.home-lolly {
+    display: block;
+    margin: auto;   
+}
+
+.home-container {
+    display:block;
+    margin: 7% auto 0 auto;
+    width: 50%;
+}
+
+h1,h3 {
+    display: block;
+    margin: auto;
+    width: 55%;
+    color: #fff;
+    font-family: 'pacifico', cursive;
+    /* text-shadow:1px 1px 10px black, 1px 1px 10px #F872D7; */
+    text-align: center;
+    animation: glowing 1s ease-in-out infinite alternate;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.home-btn {
+    padding: 13px;
+    border-radius: 29px;
+    background-color: transparent;
+    color: #F872D7;
+    margin: 5% auto 5% auto;
+    display: block;
+    border: solid 1px #F872D7;
+}
+
+
+
+@media (max-width: 768px){
+    .home-lolly {
+        width: 70%;
+    }
+    .home-container {
+        margin-top: 55%;
+    }
+
+}
