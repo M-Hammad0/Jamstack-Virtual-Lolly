@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import { gql,useMutation } from '@apollo/client'
+import Lolly from "../components/Lolly"
 
 
 const create_lolly = gql`
@@ -32,7 +33,7 @@ const CreateLollyPage = () => {
       <Layout>
         <Container>
           <Row>
-            <Col>img</Col>
+            <Col><Lolly fillLollyTop="black" fillLollyMiddle="white" fillLollyBottom="orange" /></Col>
             <Col>
             <input placeholder="to" value={To} onChange={e => setTo(e.target.value)} />
             <input placeholder="message" value={message} onChange={e => setMessage(e.target.value)} />
