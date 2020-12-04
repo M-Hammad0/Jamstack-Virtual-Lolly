@@ -1,9 +1,13 @@
 import React from 'react'
+import Header from '../components/Header'
+import Layout from '../components/Layout'
 
 const CreateLolly = () => {
     return (
         <div>
-            hello
+            <Layout>
+                
+            </Layout>
         </div>
     )
 }
