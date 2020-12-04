@@ -20,7 +20,7 @@ h1,h3 {
     width: 55%;
     color: #fff;
     font-family: 'pacifico', cursive;
-    /* text-shadow:1px 1px 10px black, 1px 1px 10px #F872D7; */
+    text-shadow:1px 1px 10px black, 1px 1px 10px #F872D7;
     text-align: center;
     animation: glowing 1s ease-in-out infinite alternate;
 }
@@ -43,6 +43,11 @@ h3 {
     margin: 5% auto 5% auto;
     display: block;
     border: solid 1px #F872D7;
+}
+
+.home-btn:hover {
+    background-color: #F872D7 ;
+    color: black;
 }
 
 
