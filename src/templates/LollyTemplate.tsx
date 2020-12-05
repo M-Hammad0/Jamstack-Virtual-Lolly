@@ -1,15 +1,19 @@
 import React from 'react'
+import Layout from '../components/Layout'
 
  interface LollyProps {
      pageContext: {
-         name: string
+         data : Object
      }
  }
 
 const LollyTemplate = ({pageContext}: LollyProps) => {
+    console.log(pageContext.data)
     return (
         <div>
-            this is dynamically generated page {pageContext.name}
+            <Layout>
+                
+            </Layout>
         </div>
     )
 }
