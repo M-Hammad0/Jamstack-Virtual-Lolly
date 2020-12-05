@@ -8,15 +8,18 @@ import Lolly from "../components/Lolly"
 import 'rc-color-picker/assets/index.css';
 //@ts-ignore
 import ColorPicker from 'rc-color-picker';
-
+import { nanoid } from 'nanoid'
 
 const create_lolly = gql`
-mutation createLolly($To: String!, $message:String!,$from:String!,$flavourTop: String!, $flavourMiddle: String!, $flavourBottom: String!){
-    createLolly(To: $To,message: $message, from: $from, flavourTop: $flavourTop, flavourMiddle: $flavourMiddle, flavourBottom: $flavourBottom){
+mutation createLolly($To: String!, $message:String!,$from:String!,$flavourTop: String!, $flavourMiddle: String!, $flavourBottom: String!, $url: String!){
+    createLolly(To: $To,message: $message, from: $from, flavourTop: $flavourTop, flavourMiddle: $flavourMiddle, flavourBottom: $flavourBottom, url: $url){
       To
       message
       from
       flavourTop
+      flavourMiddle
+      flavourBottom
+      url
     }
   }
 `
@@ -30,6 +33,8 @@ interface colorI {
 
 const CreateLollyPage = () => {
     
+    const url = nanoid()
+
     const [To,setTo] = useState("")
     const [message,setMessage] = useState("")
     const [from,setFrom] = useState("")
@@ -38,7 +43,6 @@ const CreateLollyPage = () => {
     const [middle,setMiddle] = useState("#E55946")
     const [bottom,setBottom] = useState("#DBA543")
 
-    console.log(top)
 
   return (
     <div>
@@ -82,7 +86,8 @@ const CreateLollyPage = () => {
                         from,
                         flavourTop: top,
                         flavourMiddle: middle,
-                        flavourBottom: bottom
+                        flavourBottom: bottom,
+                        url
                     }
                 })
                 setTo("")

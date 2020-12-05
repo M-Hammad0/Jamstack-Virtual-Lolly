@@ -16,7 +16,7 @@ type Lolly {
  }
  
  type Query {
-    getLolly: [Lolly!]
+    getLolly(url: String!): Lolly
  }
  type Mutation {
     createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!,url: String!): Lolly
@@ -26,26 +26,14 @@ type Lolly {
 
 const resolvers = {
   Query: {
-    getLolly: async () => {
+    getLolly: async (_,{url}) => {
       try{
         var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET_KEY });
         var result = await client.query(
-            q.Map(q.Paginate(q.Match(q.Index("all_Lolly"))),q.Lambda("X", q.Get(q.Var("X"))))
+            q.Get(q.Match(q.Index("lolly_by_url"),url))
           );
-        console.log(result.data)
-        return result.data.map(a => {
-            return {
-                id: a.ts,
-                To: a.data.To,
-                message: a.data.message,
-                from: a.data.from,
-                flavourBottom: a.data.flavourBottom, 
-                flavourTop: a.data.flavourTop,
-                flavourMiddle: a.data.flavourMiddle,
-                url: a.data.url 
-            }
-        })
-        
+        console.log(result)
+        return result.data
       }
       catch(err){
         console.log('err',err);
