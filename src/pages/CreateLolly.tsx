@@ -3,7 +3,7 @@ import Layout from "../components/Layout"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import { gql,useMutation } from '@apollo/client'
+import { gql,useMutation,useLazyQuery } from '@apollo/client'
 import Lolly from "../components/Lolly"
 import 'rc-color-picker/assets/index.css';
 //@ts-ignore
@@ -24,6 +24,15 @@ mutation createLolly($To: String!, $message:String!,$from:String!,$flavourTop: S
   }
 `
 
+ const getLolly = gql`
+ query($url: String!){
+  getLollyByURL(url: $url){
+    url
+    To
+  }
+ }
+ `
+
 interface colorI {
     color: string,
     alpha: string,
@@ -33,7 +42,11 @@ interface colorI {
 
 const CreateLollyPage = () => {
     
-    const url = nanoid()
+    
+
+
+    
+
 
     const [To,setTo] = useState("")
     const [message,setMessage] = useState("")
@@ -42,6 +55,16 @@ const CreateLollyPage = () => {
     const [top,setTop] = useState("#D52358")
     const [middle,setMiddle] = useState("#E55946")
     const [bottom,setBottom] = useState("#DBA543")
+    const [url] = useState(nanoid())
+
+    const [getLollybyURL,{data}] = useLazyQuery(getLolly,{
+      variables: {
+        url
+      }
+    })
+
+    console.log('key',url)
+    console.log(data)
 
 
   return (
@@ -90,6 +113,7 @@ const CreateLollyPage = () => {
                         url
                     }
                 })
+                setTimeout(() => getLollybyURL(),2000)
                 setTo("")
                 setMessage("")
                 setFrom("")
@@ -99,7 +123,6 @@ const CreateLollyPage = () => {
             }}>create lolly!</button>
             </Col>
           </Row>
-          
         </Container>
       </Layout>
     </div>
