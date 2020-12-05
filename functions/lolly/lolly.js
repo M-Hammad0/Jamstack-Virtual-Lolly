@@ -12,13 +12,14 @@ type Lolly {
     flavourTop: String!
     flavourMiddle: String!
     flavourBottom: String!
+    url: String!
  }
  
  type Query {
     getLolly: [Lolly!]
  }
  type Mutation {
-    createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!): Lolly
+    createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!,url: String!): Lolly
  }
 `
 
@@ -40,7 +41,8 @@ const resolvers = {
                 from: a.data.from,
                 flavourBottom: a.data.flavourBottom, 
                 flavourTop: a.data.flavourTop,
-                flavourMiddle: a.data.flavourMiddle 
+                flavourMiddle: a.data.flavourMiddle,
+                url: a.data.url 
             }
         })
         
@@ -51,7 +53,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    createLolly: async (_, { To,from,message,flavourTop,flavourMiddle,flavourBottom }) => {
+    createLolly: async (_, { To,from,message,flavourTop,flavourMiddle,flavourBottom,url }) => {
       try {
         var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET_KEY });
         var result = await client.query(
@@ -64,7 +66,8 @@ const resolvers = {
                 from,
                 flavourTop,
                 flavourMiddle,
-                flavourBottom
+                flavourBottom,
+                url
               }
             }
           )
