@@ -18,6 +18,7 @@
     "bootstrap": "^4.5.3",
     "dotenv": "^8.2.0",
     "faunadb": "^4.0.0",
+    "formik": "^2.2.5",
     "gatsby": "^2.26.1",
     "gatsby-plugin-apollo": "^3.0.2",
     "gatsby-plugin-typescript": "^2.8.0",

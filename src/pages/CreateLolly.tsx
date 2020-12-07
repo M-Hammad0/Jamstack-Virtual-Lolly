@@ -9,9 +9,10 @@ import 'rc-color-picker/assets/index.css';
 //@ts-ignore
 import ColorPicker from 'rc-color-picker';
 import { nanoid } from 'nanoid'
+import {Formik,Form,Field} from 'formik';
 
 const create_lolly = gql`
-mutation createLolly($To: String!, $message:String!,$from:String!,$flavourTop: String!, $flavourMiddle: String!, $flavourBottom: String!, $url: String!){
+mutation createLolly($To:String!, $message:String!, $from:String!, $flavourTop: String!, $flavourMiddle: String!, $flavourBottom:String!, $url: String!){
     createLolly(To: $To,message: $message, from: $from, flavourTop: $flavourTop, flavourMiddle: $flavourMiddle, flavourBottom: $flavourBottom, url: $url){
       To
       message
@@ -28,10 +29,11 @@ mutation createLolly($To: String!, $message:String!,$from:String!,$flavourTop: S
  query($url: String!){
   getLollyByURL(url: $url){
     url
-    To
   }
  }
  `
+
+
 
 interface colorI {
     color: string,
@@ -39,18 +41,31 @@ interface colorI {
     open: boolean
 }
 
+interface MyFormValues {
+    To: string,
+    message: string,
+    from: string,
+    flavourTop: string,
+    flavourMiddle: string,
+    flavourBottom: string,
+    url: string,
+}
+
 
 const CreateLollyPage = () => {
     
     
-
+  const initialValues: MyFormValues = { 
+    To: '',
+    message:  '',
+    from:  '',
+    flavourTop: '',
+    flavourMiddle:  '',
+    flavourBottom:  '',
+    url:  ''
+   };
 
     
-
-
-    const [To,setTo] = useState("")
-    const [message,setMessage] = useState("")
-    const [from,setFrom] = useState("")
     const [createLolly] = useMutation(create_lolly)
     const [top,setTop] = useState("#D52358")
     const [middle,setMiddle] = useState("#E55946")
@@ -65,7 +80,6 @@ const CreateLollyPage = () => {
 
     console.log('key',url)
     console.log(data)
-
 
   return (
     <div>
@@ -97,32 +111,40 @@ const CreateLollyPage = () => {
                 </Col>
             </Row>
             </Col>
+            
             <Col>
-            <input placeholder="to" value={To} onChange={e => setTo(e.target.value)} />
-            <input placeholder="message" value={message} onChange={e => setMessage(e.target.value)} />
-            <input placeholder="from" value={from} onChange={e => setFrom(e.target.value)} />
-            <button onClick={() => {
-                createLolly({
-                    variables: {
-                        To,
-                        message,
-                        from,
-                        flavourTop: top,
-                        flavourMiddle: middle,
-                        flavourBottom: bottom,
-                        url
-                    }
-                })
-                setTimeout(() => getLollybyURL(),2000)
-                setTo("")
-                setMessage("")
-                setFrom("")
-                setTop("#D52358")
-                setMiddle("#E55946")
-                setBottom("#DBA543")
-            }}>create lolly!</button>
+            <div>
+            <Formik
+         initialValues={initialValues}
+         onSubmit={(values, actions) => {
+          createLolly({
+            variables: {
+                ...values,
+                flavourTop: top,
+                flavourMiddle: middle,
+                flavourBottom: bottom,
+                url: url
+            }
+        })
+        setTimeout(() => getLollybyURL(),2000)
+
+        setTop("#D52358")
+        setMiddle("#E55946")
+        setBottom("#DBA543")
+           actions.setSubmitting(false);
+         }}
+       >
+         <Form>
+           <Field id="To" name="To" placeholder="To" />
+           <Field id="message" name="message" placeholder="message" />
+           <Field id="from" name="from" placeholder="from" />
+           <button type="submit">Submit</button>
+         </Form>
+       </Formik>
+            </div>
             </Col>
           </Row>
+          <button onClick={() => getLollybyURL() }>HAAAAAAAA</button>
         </Container>
       </Layout>
     </div>
