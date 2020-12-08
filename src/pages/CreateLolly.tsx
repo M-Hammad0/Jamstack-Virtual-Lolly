@@ -97,12 +97,10 @@ const CreateLollyPage = () => {
 
   const [getLollybyURL, { data }] = useLazyQuery(getLolly, {
     variables: {
-      url,
+      url
     },
   })
 
-  console.log("key", url)
-  console.log(data)
 
   return (
     <div>
@@ -153,8 +151,17 @@ const CreateLollyPage = () => {
                         url: url,
                       },
                     })
-                    setTimeout(() => getLollybyURL(), 2000)
-
+                    setTimeout(() => {
+                      getLollybyURL()
+                      if (data) {
+                        window.location.href=`http://localhost:8888/lolly/${data.getLollyByURL.url}`
+                      }
+                      else {
+                        alert('something went wrong!')
+                      }
+                    }
+                    , 4000)
+                    
                     setTop("#D52358")
                     setMiddle("#E55946")
                     setBottom("#DBA543")
