@@ -33,7 +33,6 @@ const resolvers = {
         var result = await client.query(
             q.Map(q.Paginate(q.Match(q.Index("all_Lolly"))),q.Lambda("X", q.Get(q.Var("X"))))
           );
-        console.log(result.data)
         return result.data.map(a => {
             return {
                 id: a.ts,
@@ -58,7 +57,6 @@ const resolvers = {
         var result = await client.query(
           q.Get(q.Match(q.Index("lolly_by_url"),url))
           );
-        console.log(result.data)
         return result.data
       }
       catch(err){
@@ -87,7 +85,6 @@ const resolvers = {
           )
 
         );
-        console.log(result.data);
         return result.data
 
       }
