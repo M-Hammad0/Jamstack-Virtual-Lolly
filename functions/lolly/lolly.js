@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios = require('axios');
 const {ApolloServer,gql}  = require('apollo-server-lambda')
 const faunadb = require('faunadb'),
 q = faunadb.query;
@@ -82,7 +83,9 @@ const resolvers = {
                 url
               }
             }
-          )
+          ),
+          axios.post('https://api.netlify.com/build_hooks/5fcff066379b1d3220c760ce')
+          
 
         );
         return result.data
