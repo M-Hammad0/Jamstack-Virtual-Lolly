@@ -154,7 +154,7 @@ const CreateLollyPage = () => {
                     setTimeout(() => {
                       getLollybyURL()
                       if (data) {
-                        window.location.href=`http://localhost:8888/lolly/${data.getLollyByURL.url}`
+                        window.location.href=`https://virtual-lolly-mh.netlify.app/lolly/${data.getLollyByURL.url}`
                       }
                       else {
                         alert('something went wrong!')
