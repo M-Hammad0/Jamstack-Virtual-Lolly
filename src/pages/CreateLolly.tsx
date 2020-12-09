@@ -8,8 +8,11 @@ import Lolly from "../components/Lolly"
 import "rc-color-picker/assets/index.css"
 //@ts-ignore
 import ColorPicker from "rc-color-picker"
+import { nanoid } from "nanoid"
 import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
+import ShowLolly from '../components/ShowLolly';
+
 
 const create_lolly = gql`
   mutation createLolly(
@@ -19,7 +22,7 @@ const create_lolly = gql`
     $flavourTop: String!
     $flavourMiddle: String!
     $flavourBottom: String!
-
+    $url: String!
   ) {
     createLolly(
       To: $To
@@ -28,7 +31,7 @@ const create_lolly = gql`
       flavourTop: $flavourTop
       flavourMiddle: $flavourMiddle
       flavourBottom: $flavourBottom
-
+      url: $url
     ) {
       To
       message
@@ -36,12 +39,24 @@ const create_lolly = gql`
       flavourTop
       flavourMiddle
       flavourBottom
-
+      url
     }
   }
 `
 
-
+const getLolly = gql`
+  query($url: String!) {
+    getLollyByURL(url: $url) {
+      To
+      message
+      from
+      flavourTop
+      flavourMiddle
+      flavourBottom
+      url
+    }
+  }
+`
 
 interface colorI {
   color: string
@@ -86,99 +101,114 @@ const CreateLollyPage = () => {
   const [top, setTop] = useState("#D52358")
   const [middle, setMiddle] = useState("#E55946")
   const [bottom, setBottom] = useState("#DBA543")
-  
+  const [url] = useState(nanoid())
+  const [lollyData,setlollyData] = useState({
+    To: '',
+    message: '',
+    from: ''
+  })
 
-  
+  const [getLollybyURL, { data,loading }] = useLazyQuery(getLolly, {
+    variables: {
+      url
+    },
+  })
+
 
 
   return (
     <div>
-      <Layout>
-        <Container>
+      {data && !loading ? 
+    
+    <ShowLolly flavourBottom={bottom} flavourMiddle={middle} flavourTop={top} url={url} To={lollyData.To} message={lollyData.message} from={lollyData.from} /> : 
+    <Layout>
+    <Container>
+      <Row>
+        <Col>
           <Row>
             <Col>
-              <Row>
-                <Col>
-                  <Lolly
-                    fillLollyTop={top}
-                    fillLollyMiddle={middle}
-                    fillLollyBottom={bottom}
-                  />
-                </Col>
-                <Col>
-                  <ColorPicker
-                    animation="slide-up"
-                    color={"#D52358"}
-                    onChange={({ color }: colorI) => setTop(color)}
-                  />
-                  <ColorPicker
-                    animation="slide-up"
-                    color={"#E55946"}
-                    onChange={({ color }: colorI) => setMiddle(color)}
-                  />
-                  <ColorPicker
-                    animation="slide-up"
-                    color={"#DBA543"}
-                    onChange={({ color }: colorI) => setBottom(color)}
-                  />
-                </Col>
-              </Row>
+              <Lolly
+                fillLollyTop={top}
+                fillLollyMiddle={middle}
+                fillLollyBottom={bottom}
+              />
             </Col>
-
             <Col>
-              <div>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={LollySchema}
-                  onSubmit={(values, actions) => {
-                    createLolly({
-                      variables: {
-                        ...values,
-                        flavourTop: top,
-                        flavourMiddle: middle,
-                        flavourBottom: bottom,
-                      },
-                    })
-                    
-                    
-                    setTop("#D52358")
-                    setMiddle("#E55946")
-                    setBottom("#DBA543")
-                    actions.setSubmitting(false)
-                  }}
-                >
-                  {({ errors, touched }) => (
-                    <Form>
-                      <Field
-                        autoComplete="off"
-                        id="To"
-                        name="To"
-                        placeholder="To"
-                      />
-                      {errors.To && touched.To ? (
-                        <div className="error">{errors.To}</div>
-                      ) : null}
-                      <Field
-                        id="message"
-                        name="message"
-                        placeholder="message"
-                      />
-                      {errors.message && touched.message ? (
-                        <div className="error">{errors.message}</div>
-                      ) : null}
-                      <Field id="from" name="from" placeholder="from" />
-                      {errors.from && touched.from ? (
-                        <div className="error">{errors.from}</div>
-                      ) : null}
-                      <button type="submit">Create Lolly</button>
-                    </Form>
-                  )}
-                </Formik>
-              </div>
+              <ColorPicker
+                animation="slide-up"
+                color={"#D52358"}
+                onChange={({ color }: colorI) => setTop(color)}
+              />
+              <ColorPicker
+                animation="slide-up"
+                color={"#E55946"}
+                onChange={({ color }: colorI) => setMiddle(color)}
+              />
+              <ColorPicker
+                animation="slide-up"
+                color={"#DBA543"}
+                onChange={({ color }: colorI) => setBottom(color)}
+              />
             </Col>
           </Row>
-        </Container>
-      </Layout>
+        </Col>
+
+        <Col>
+          <div>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={LollySchema}
+              onSubmit={(values, actions) => {
+                setlollyData(values)
+                createLolly({
+                  variables: {
+                    ...values,
+                    flavourTop: top,
+                    flavourMiddle: middle,
+                    flavourBottom: bottom,
+                    url: url,
+                  },
+                })
+                setTimeout(() => getLollybyURL(),2000)
+                
+                actions.setSubmitting(false)
+              }}
+            >
+              {({ errors, touched }) => (
+                <Form>
+                  <Field
+                    autoComplete="off"
+                    id="To"
+                    name="To"
+                    placeholder="To"
+                  />
+                  {errors.To && touched.To ? (
+                    <div className="error">{errors.To}</div>
+                  ) : null}
+                  <Field
+                    id="message"
+                    name="message"
+                    placeholder="message"
+                  />
+                  {errors.message && touched.message ? (
+                    <div className="error">{errors.message}</div>
+                  ) : null}
+                  <Field id="from" name="from" placeholder="from" />
+                  {errors.from && touched.from ? (
+                    <div className="error">{errors.from}</div>
+                  ) : null}
+                  <button type="submit">Create Lolly</button>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  </Layout>
+  
+  }
+      
     </div>
   )
 }
