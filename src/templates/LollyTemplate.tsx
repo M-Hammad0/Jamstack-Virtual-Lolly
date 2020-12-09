@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Lolly from '../components/Lolly'
 
- interface LollyProps {
+interface LollyProps {
      pageContext: {
          data : {
              To: string,

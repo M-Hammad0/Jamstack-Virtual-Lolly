@@ -1,8 +1,10 @@
 require("dotenv").config();
 const axios = require('axios');
 const {ApolloServer,gql}  = require('apollo-server-lambda')
+const nanoid = require('nanoid')
 const faunadb = require('faunadb'),
 q = faunadb.query;
+
 
 const typeDefs = gql`
   
@@ -13,7 +15,7 @@ type Lolly {
     flavourTop: String!
     flavourMiddle: String!
     flavourBottom: String!
-    url: String!
+    url: String
  }
  
  type Query {
@@ -21,7 +23,7 @@ type Lolly {
     getAllLolly: [Lolly!]
  }
  type Mutation {
-    createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!,url: String!): Lolly
+    createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!): Lolly
  }
 `
 
@@ -66,7 +68,8 @@ const resolvers = {
     },
   },
   Mutation: {
-    createLolly: async (_, { To,from,message,flavourTop,flavourMiddle,flavourBottom,url }) => {
+    createLolly: async (callback, { To,from,message,flavourTop,flavourMiddle,flavourBottom }) => {
+      const url = nanoid()
       try {
         var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET_KEY });
         var result = await client.query(
@@ -80,12 +83,12 @@ const resolvers = {
                 flavourTop,
                 flavourMiddle,
                 flavourBottom,
-                url
+                url: url
               }
             }
           ),
           axios.post('https://api.netlify.com/build_hooks/5fcff066379b1d3220c760ce')
-          
+          // add callback
 
         );
         return result.data

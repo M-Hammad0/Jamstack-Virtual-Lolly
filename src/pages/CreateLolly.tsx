@@ -8,7 +8,6 @@ import Lolly from "../components/Lolly"
 import "rc-color-picker/assets/index.css"
 //@ts-ignore
 import ColorPicker from "rc-color-picker"
-import { nanoid } from "nanoid"
 import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
 
@@ -20,7 +19,7 @@ const create_lolly = gql`
     $flavourTop: String!
     $flavourMiddle: String!
     $flavourBottom: String!
-    $url: String!
+
   ) {
     createLolly(
       To: $To
@@ -29,7 +28,7 @@ const create_lolly = gql`
       flavourTop: $flavourTop
       flavourMiddle: $flavourMiddle
       flavourBottom: $flavourBottom
-      url: $url
+
     ) {
       To
       message
@@ -37,18 +36,12 @@ const create_lolly = gql`
       flavourTop
       flavourMiddle
       flavourBottom
-      url
+
     }
   }
 `
 
-const getLolly = gql`
-  query($url: String!) {
-    getLollyByURL(url: $url) {
-      url
-    }
-  }
-`
+
 
 interface colorI {
   color: string
@@ -93,13 +86,9 @@ const CreateLollyPage = () => {
   const [top, setTop] = useState("#D52358")
   const [middle, setMiddle] = useState("#E55946")
   const [bottom, setBottom] = useState("#DBA543")
-  const [url] = useState(nanoid())
+  
 
-  const [getLollybyURL, { data }] = useLazyQuery(getLolly, {
-    variables: {
-      url
-    },
-  })
+  
 
 
   return (
@@ -148,19 +137,9 @@ const CreateLollyPage = () => {
                         flavourTop: top,
                         flavourMiddle: middle,
                         flavourBottom: bottom,
-                        url: url,
                       },
                     })
-                    setTimeout(() => {
-                      getLollybyURL()
-                      if (data) {
-                        window.location.href=`https://virtual-lolly-mh.netlify.app/lolly/${data.getLollyByURL.url}`
-                      }
-                      else {
-                        alert('something went wrong!')
-                      }
-                    }
-                    , 4000)
+                    
                     
                     setTop("#D52358")
                     setMiddle("#E55946")
