@@ -1,7 +1,7 @@
 require("dotenv").config();
 const axios = require('axios');
 const {ApolloServer,gql}  = require('apollo-server-lambda')
-const nanoid = require('nanoid')
+const { nanoid } = require("nanoid")
 const faunadb = require('faunadb'),
 q = faunadb.query;
 
@@ -23,7 +23,7 @@ type Lolly {
     getAllLolly: [Lolly!]
  }
  type Mutation {
-    createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!): Lolly
+    createLolly(To: String!, message: String!, from: String!, flavourTop: String!,flavourMiddle: String!,flavourBottom: String!, url: String): Lolly
  }
 `
 
