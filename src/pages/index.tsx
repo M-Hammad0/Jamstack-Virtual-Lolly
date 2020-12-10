@@ -7,8 +7,8 @@ import { Link } from 'gatsby';
 import Layout from "../components/Layout"
 
 export default function Home() {
-  return <div>
-    <div className='home-container'>
+  return <div className="home-container">
+
       <Layout>
       <Image className='home-lolly' src={img} fluid />
     <Button className='home-btn' size="lg">
@@ -16,8 +16,7 @@ export default function Home() {
   </Button>
       </Layout>
     
-  
-    </div>
+
     
   </div>
 }
